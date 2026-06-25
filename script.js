@@ -69,24 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
   let heroHeight = hero.offsetHeight;
   window.addEventListener('resize', () => { heroHeight = hero.offsetHeight; }, { passive: true });
 
+  let scrollSmokeY = 0;
+  const applySmokeScrollY = () => {
+    heroSmoke.style.transform = `translateY(${scrollSmokeY}px)`;
+  };
+
   let ticking = false;
   const updateParallax = () => {
     const y = window.scrollY;
     if (y < heroHeight * 1.2) {
-      // background image: slowest layer, slight scale-up to avoid edge gaps
       heroImg.style.transform = `translateY(${y * 0.32}px) scale(${1 + y * 0.0002})`;
-      // smoke/atmosphere: faster layer, creates parallax separation between planes
-      heroSmoke.style.transform = `translateY(${y * 0.55}px)`;
-      // content: fades and settles back slightly as the section is left,
-      // like the title is receding into the scene rather than just scrolling off
+      scrollSmokeY = y * 0.55;
+      applySmokeScrollY();
       const fadeProgress = Math.min(y / (heroHeight * 0.6), 1);
       heroContent.style.opacity = String(1 - fadeProgress);
       heroContent.style.transform = `translateY(${fadeProgress * 40}px) scale(${1 - fadeProgress * 0.04})`;
     }
     ticking = false;
   };
-  // Skip the scroll-linked transform on small screens (touch scrolling makes
-  // it read as jank) and when the person has asked for reduced motion.
+
   if (!isSmallScreen && !wantsReducedMotion) {
     window.addEventListener('scroll', () => {
       if (!ticking) {
@@ -95,6 +96,67 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
     updateParallax();
+
+    /* --- full-page ember sparks + cursor push interaction ---
+       Each spark lives in an .ember-wrap (holds spawn position + push offset)
+       with a .hero-ember inside (runs the CSS rise animation).
+       Separating position from animation lets us push the wrap's transform
+       without conflicting with the keyframe on the inner element. */
+    const embersContainer = document.createElement('div');
+    embersContainer.className = 'page-embers';
+    const emberWraps = [];
+    for (let i = 0; i < 24; i++) {
+      const wrap = document.createElement('span');
+      wrap.className = 'ember-wrap';
+      const left  = (4 + Math.random() * 92).toFixed(1);
+      const bot   = (Math.random() * 4).toFixed(1);
+      wrap.style.cssText = `left:${left}%;bottom:${bot}%;`;
+      const s = document.createElement('span');
+      s.className = 'hero-ember';
+      const dur   = (5.5 + Math.random() * 4.5).toFixed(2);
+      const delay = (Math.random() * 8).toFixed(2);
+      const ex    = ((Math.random() - 0.5) * 44).toFixed(1);
+      s.style.cssText = `--dur:${dur}s;--delay:${delay}s;--ex:${ex}px;`;
+      wrap.appendChild(s);
+      embersContainer.appendChild(wrap);
+      emberWraps.push({ el: wrap, ember: s, px: 0, py: 0, tx: 0, ty: 0 });
+    }
+    document.body.appendChild(embersContainer);
+
+    // push interaction: on mousemove, embers within PUSH_R px get deflected away
+    let cursorX = -9999, cursorY = -9999, pushRafId = null;
+    const PUSH_R = 110, PUSH_F = 65, PUSH_LERP = 0.13;
+    const runPush = () => {
+      // batch reads first (avoids layout thrashing)
+      const rects = emberWraps.map(w => w.ember.getBoundingClientRect());
+      let anyActive = false;
+      rects.forEach((rect, i) => {
+        const w = emberWraps[i];
+        const cx = rect.left + rect.width  / 2;
+        const cy = rect.top  + rect.height / 2;
+        const dx = cx - cursorX, dy = cy - cursorY;
+        const dist = Math.hypot(dx, dy);
+        if (dist < PUSH_R && dist > 0.5) {
+          const f = (1 - dist / PUSH_R) * PUSH_F;
+          w.tx = (dx / dist) * f;
+          w.ty = (dy / dist) * f;
+        } else { w.tx = 0; w.ty = 0; }
+        w.px += (w.tx - w.px) * PUSH_LERP;
+        w.py += (w.ty - w.py) * PUSH_LERP;
+        if (Math.abs(w.px) > 0.1 || Math.abs(w.py) > 0.1) {
+          anyActive = true;
+          w.el.style.transform = `translate(${w.px.toFixed(2)}px,${w.py.toFixed(2)}px)`;
+        } else if (w.el.style.transform) {
+          w.px = 0; w.py = 0;
+          w.el.style.transform = '';
+        }
+      });
+      pushRafId = anyActive ? requestAnimationFrame(runPush) : null;
+    };
+    document.addEventListener('mousemove', (e) => {
+      cursorX = e.clientX; cursorY = e.clientY;
+      if (!pushRafId) pushRafId = requestAnimationFrame(runPush);
+    }, { passive: true });
   }
 
   /* ---------- GENERIC REVEAL ON SCROLL (text, media, groups) ---------- */
@@ -383,6 +445,24 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.transform = '';
       });
     });
+  }
+
+  /* ---------- CURSOR SPARKS (desktop + no reduced motion) ---------- */
+  if (!isSmallScreen && !wantsReducedMotion) {
+    let lastSparkMs = 0;
+    document.addEventListener('mousemove', (e) => {
+      const now = performance.now();
+      if (now - lastSparkMs < 45) return; // ~22 sparks/sec max
+      lastSparkMs = now;
+      const sp = document.createElement('span');
+      sp.className = 'cursor-spark';
+      sp.style.left = `${e.clientX}px`;
+      sp.style.top  = `${e.clientY}px`;
+      sp.style.setProperty('--sx', `${((Math.random() - 0.5) * 16).toFixed(1)}px`);
+      sp.style.setProperty('--sy', `${(-10 - Math.random() * 20).toFixed(1)}px`);
+      document.body.appendChild(sp);
+      sp.addEventListener('animationend', () => sp.remove(), { once: true });
+    }, { passive: true });
   }
 
   /* ---------- BOOKING FORM ---------- */

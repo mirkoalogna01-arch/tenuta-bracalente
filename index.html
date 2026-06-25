@@ -90,6 +90,7 @@
   --brass:#C9A24B;
   --brass-dim:#9C7E3E;
   --olive:#5B6B4F;
+  --olive-light:#8A9E7A;
 
   --display:'Fraunces', serif;
   --body:'Source Serif 4', serif;
@@ -150,7 +151,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-size:12px;
   letter-spacing:0.18em;
   text-transform:uppercase;
-  color:var(--brass);
+  color:var(--olive-light);
   display:flex;
   align-items:center;
   gap:12px;
@@ -159,7 +160,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   content:'';
   width:24px;
   height:1px;
-  background:var(--brass-dim);
+  background:var(--olive-light);
   display:inline-block;
   transform-origin:left;
   transition:transform .6s var(--ease-out-expo) .15s;
@@ -505,6 +506,7 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
   <!-- ============ PRENOTA ============ -->
   <section class="section prenota" id="prenota">
     <div class="prenota-glow" aria-hidden="true"></div>
+    <div class="prenota-brace" aria-hidden="true"></div>
     <div class="wrap prenota-grid">
       <div class="prenota-info reveal">
         <p class="eyebrow">Prenotazioni</p>

@@ -146,11 +146,12 @@
 .hero-smoke{
   position:absolute;
   inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(139,46,46,0.35), transparent 70%);
+  background:radial-gradient(ellipse 70% 58% at 50% 100%, rgba(170,55,45,0.5), transparent 70%);
   mix-blend-mode:screen;
   opacity:0.8;
   will-change:transform;
 }
+
 .hero-vignette{
   position:absolute;inset:0;
   background:
@@ -226,6 +227,58 @@
   from{opacity:0;transform:translateY(26px);}
   to{opacity:1;transform:translateY(0);}
 }
+
+/* rising ember particles -------------------------------------------------- */
+.page-embers{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:20;
+}
+/* wrapper holds the spawn position and receives the cursor-push transform */
+.ember-wrap{
+  position:absolute;
+  display:block;
+  width:0;height:0;
+  overflow:visible;
+}
+/* inner ember animates upward relative to the wrap's origin */
+.hero-ember{
+  position:absolute;
+  top:0;left:-2px;
+  width:5px;height:8px;
+  border-radius:50% 40% 55% 45%;
+  background:radial-gradient(circle at 40% 35%, #FFE080, #D0542A 50%, transparent 82%);
+  box-shadow:0 0 7px 2px rgba(220,150,60,0.6);
+  will-change:transform,opacity;
+  animation:ember-rise var(--dur,7s) ease-in var(--delay,0s) infinite both;
+}
+@keyframes ember-rise{
+  0%   { transform:translate(0,0) scale(1);                       opacity:0;   }
+  6%   {                                                          opacity:0.9; }
+  50%  {                                                          opacity:0.7; }
+  100% { transform:translate(var(--ex,6px),-103vh) scale(0.08);  opacity:0;   }
+}
+
+/* cursor sparks — created by JS on mousemove, removed after animation */
+.cursor-spark{
+  position:fixed;
+  width:4px;height:5px;
+  margin:-2px 0 0 -2px;
+  border-radius:50% 40% 60% 40%;
+  background:radial-gradient(circle at 40% 35%, #FFF0A0, #E05020 55%, transparent 85%);
+  box-shadow:0 0 5px 1px rgba(240,160,50,0.75);
+  pointer-events:none;
+  z-index:9999;
+  will-change:transform,opacity;
+  animation:cursor-spark-fly 0.55s ease-out forwards;
+}
+@keyframes cursor-spark-fly{
+  0%   { transform:translate(0,0) scale(1);                                   opacity:1; }
+  100% { transform:translate(var(--sx,0px),var(--sy,-28px)) scale(0.1);      opacity:0; }
+}
+@media (prefers-reduced-motion:reduce){ .page-embers,.cursor-spark{ display:none; } }
 
 /* hero title line reveal via JS-added spans, animated by delay */
 .hero-title .line:nth-child(1){animation:none;}
@@ -863,6 +916,30 @@
   pointer-events:none;
   z-index:0;
 }
+/* decorative ember bed — visible warmth at the bottom of the section */
+.prenota-brace{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:180px;
+  pointer-events:none;
+  z-index:1;
+  background:
+    radial-gradient(ellipse 30% 55% at 20% 100%, rgba(240,110,20,0.55), transparent 65%),
+    radial-gradient(ellipse 28% 50% at 50% 100%, rgba(255,140,25,0.5),  transparent 62%),
+    radial-gradient(ellipse 25% 48% at 78% 100%, rgba(230,90,15,0.5),   transparent 63%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(150,40,10,0.45),  transparent 78%);
+  mix-blend-mode:screen;
+}
+/* spark container injected by JS */
+.prenota-embers{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:220px;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:2;
+}
+@media (prefers-reduced-motion:reduce){ .prenota-brace,.prenota-embers{ display:none; } }
 .prenota-grid{
   position:relative;
   z-index:1;
