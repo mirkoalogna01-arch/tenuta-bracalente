@@ -213,6 +213,11 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
   transform:scale(0.96);
   transition:transform .15s var(--ease);
 }
+.btn:disabled{
+  opacity:0.6;
+  cursor:default;
+  pointer-events:none;
+}
 .btn-solid{background:var(--wine);border-color:var(--wine);color:var(--cream);}
 .btn-solid::before{background:var(--wine-bright);}
 
@@ -380,6 +385,53 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
     </div>
   </section>
 
+  <!-- ============ ESPERIENZA ============ -->
+  <section class="section esperienza" id="esperienza">
+    <div class="wrap esperienza-head">
+      <p class="eyebrow">L'esperienza</p>
+      <h2 class="esperienza-title reveal-line"><span>Non si viene qui solo per cenare.</span></h2>
+      <p class="esperienza-lead reveal">Tenuta Bracalente è un pomeriggio che si allunga, un calice versato senza fretta, una storia che qualcuno al tavolo finisce sempre per raccontare. Quattro momenti, sempre gli stessi da sessant'anni.</p>
+    </div>
+
+    <div class="esperienza-moments">
+      <article class="esperienza-moment" data-moment="01">
+        <div class="esperienza-moment-media reveal-media" data-bg="https://picsum.photos/seed/bracalente-arrivo/1000/1200"></div>
+        <div class="esperienza-moment-text reveal">
+          <span class="esperienza-moment-num">01 — L'arrivo</span>
+          <h3>Il cancello, la ghiaia, il fuoco già acceso</h3>
+          <p>Si arriva su una strada bianca tra gli ulivi, e prima ancora di parcheggiare si sente l'odore della brace. Non è un dettaglio di design: è la stessa legna di quercia che brucia da prima di voi nascere.</p>
+        </div>
+      </article>
+
+      <article class="esperienza-moment esperienza-moment--reverse" data-moment="02">
+        <div class="esperienza-moment-media reveal-media" data-bg="https://picsum.photos/seed/bracalente-territorio/1000/1200"></div>
+        <div class="esperienza-moment-text reveal">
+          <span class="esperienza-moment-num">02 — Il territorio</span>
+          <h3>Quello che mangiate è cresciuto a vista</h3>
+          <p>L'orto è dietro la sala, le vigne sulla collina di fronte, il bosco da cui viene il tartufo si vede dalla finestra. Il menu non insegue le stagioni: le aspetta.</p>
+        </div>
+      </article>
+
+      <article class="esperienza-moment" data-moment="03">
+        <div class="esperienza-moment-media reveal-media" data-bg="https://picsum.photos/seed/bracalente-cucina-viva/1000/1200"></div>
+        <div class="esperienza-moment-text reveal">
+          <span class="esperienza-moment-num">03 — La cucina viva</span>
+          <h3>Si cucina a vista, si parla con chi cucina</h3>
+          <p>Elisa esce dalla cucina almeno una volta a serata. Non per cortesia: perché vuole sapere se quel piatto, stasera, è venuto come deve venire.</p>
+        </div>
+      </article>
+
+      <article class="esperienza-moment esperienza-moment--reverse" data-moment="04">
+        <div class="esperienza-moment-media reveal-media" data-bg="https://picsum.photos/seed/bracalente-eventi/1000/1200"></div>
+        <div class="esperienza-moment-text reveal">
+          <span class="esperienza-moment-num">04 — I momenti speciali</span>
+          <h3>La sala in cantina, per le occasioni che contano</h3>
+          <p>Compleanni, anniversari, cene aziendali raccolte: la sala scavata nel tufo si chiude solo per voi, fino a 24 persone, con un menu costruito insieme a chi la prenota.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- ============ MENU (comanda style) ============ -->
   <section class="section menu-section" id="menu">
     <div class="wrap">
@@ -408,7 +460,7 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
       <h2 class="cantina-title reveal">Scavata nel tufo, <em>ferma nel tempo.</em></h2>
       <p class="cantina-p reveal">Sedici metri sotto la sala, la temperatura non cambia da sessant'anni. Quattromila bottiglie, in gran parte di vignaioli umbri che conosciamo per nome.</p>
       <div class="cantina-grid reveal-group">
-        <div class="cantina-card">
+        <div class="cantina-card cantina-card--feature">
           <span class="cantina-num">01</span>
           <h3>Sagrantino di Montefalco</h3>
           <p>Il vino della casa. Lo serviamo nei calici di nostra nonna.</p>
@@ -440,30 +492,41 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
 
   <!-- ============ PRENOTA ============ -->
   <section class="section prenota" id="prenota">
+    <div class="prenota-glow" aria-hidden="true"></div>
     <div class="wrap prenota-grid">
       <div class="prenota-info reveal">
         <p class="eyebrow">Prenotazioni</p>
-        <h2>Tieniti<br>un posto<br><em>al fuoco.</em></h2>
-        <p>Per gruppi superiori a 10 persone o eventi privati nella sala della cantina, scriveteci direttamente.</p>
+        <h2 class="prenota-title">Il fuoco è acceso.<br><em>Manca solo il vostro tavolo.</em></h2>
+        <p class="prenota-lead">Ogni sera serviamo un numero di tavoli volutamente limitato: è il prezzo che paghiamo per cucinare ancora tutto a mano, come nel 1962. Scrivete oggi per non restare fuori.</p>
+        <ul class="prenota-trust">
+          <li><span class="prenota-trust-dot"></span>Confermiamo entro 2 ore, anche di sera</li>
+          <li><span class="prenota-trust-dot"></span>Nessun acconto richiesto per gruppi fino a 8</li>
+          <li><span class="prenota-trust-dot"></span>Tavoli in cantina disponibili su richiesta</li>
+        </ul>
         <div class="prenota-hours">
           <div class="hours-row"><span>Mar – Ven</span><span>19:30 – 23:00</span></div>
           <div class="hours-row"><span>Sab – Dom</span><span>12:30 – 14:30 / 19:30 – 23:30</span></div>
           <div class="hours-row"><span>Lunedì</span><span>Chiuso</span></div>
         </div>
+        <p class="prenota-alt">Preferite parlare con noi? <a href="tel:+390751234567">Chiamate al 075 123 4567</a> — risponde la famiglia, non una segreteria.</p>
       </div>
-      <form class="prenota-form reveal" id="bookingForm" name="prenotazioni" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="prenota-form reveal-media" id="bookingForm" name="prenotazioni" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="prenotazioni">
         <p class="visually-hidden" style="display:none;"><label>Non compilare questo campo: <input name="bot-field"></label></p>
+        <div class="prenota-form-head">
+          <span class="prenota-form-eyebrow">Richiesta di tavolo</span>
+          <h3>Raccontateci la vostra serata</h3>
+        </div>
         <div class="form-row">
           <label>Nome
-            <input type="text" name="nome" required>
+            <input type="text" name="nome" required placeholder="Come vi chiamiamo">
           </label>
           <label>Telefono
-            <input type="tel" name="telefono" required>
+            <input type="tel" name="telefono" required placeholder="Per la conferma">
           </label>
         </div>
         <label>Email
-          <input type="email" name="email" required>
+          <input type="email" name="email" required placeholder="dove rispondervi">
         </label>
         <div class="form-row">
           <label>Data
@@ -485,10 +548,14 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
             <option>9+ (scriveteci)</option>
           </select>
         </label>
-        <label>Richieste particolari
-          <textarea name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze di tavolo..."></textarea>
+        <label>Un'occasione da festeggiare? <span class="prenota-optional">facoltativo</span>
+          <textarea name="note" rows="3" placeholder="Anniversario, compleanno, allergie, un tavolo vicino al fuoco..."></textarea>
         </label>
-        <button type="submit" class="btn btn-solid form-submit">Invia richiesta di prenotazione</button>
+        <button type="submit" class="btn btn-solid form-submit">
+          <span>Richiedi il tuo tavolo</span>
+          <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="form-microcopy">Risposta garantita entro la serata — scrivete con fiducia.</p>
         <p class="form-note" id="formNote"></p>
       </form>
     </div>

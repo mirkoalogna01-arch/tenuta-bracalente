@@ -391,6 +391,82 @@
   .storia-stats{flex-wrap:wrap;gap:28px;}
 }
 
+/* ===================== ESPERIENZA ===================== */
+/* A full-width "breather" section: the site's one moment that slows down
+   and lets a single story play out across four large images, instead of
+   competing for attention with cards and grids like every other section. */
+.esperienza{
+  padding-top:clamp(80px,12vw,140px);
+  padding-bottom:0;
+}
+.esperienza-head{
+  max-width:680px;
+  margin-bottom:clamp(60px,9vw,120px);
+}
+.esperienza-title{
+  font-size:clamp(34px,5vw,54px);
+  margin:18px 0 22px;
+  line-height:1.12;
+}
+.esperienza-lead{color:var(--cream-dim);max-width:540px;font-size:18px;line-height:1.7;}
+
+.esperienza-moments{
+  display:flex;
+  flex-direction:column;
+}
+.esperienza-moment{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:clamp(40px,7vw,110px);
+  align-items:center;
+  padding:clamp(56px,9vw,110px) 0;
+  border-top:1px solid var(--card-line);
+}
+.esperienza-moment:first-child{border-top:none;}
+.esperienza-moment--reverse{grid-template-columns:1fr 1.1fr;}
+.esperienza-moment--reverse .esperienza-moment-media{order:2;}
+.esperienza-moment--reverse .esperienza-moment-text{order:1;}
+
+.esperienza-moment-media{
+  aspect-ratio:4/5;
+  background-size:cover;
+  background-position:center;
+  background-color:var(--card);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,0.55);
+}
+
+.esperienza-moment-text{padding:0 var(--pad);}
+.esperienza-moment-num{
+  display:block;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--brass);
+  margin-bottom:16px;
+}
+.esperienza-moment-text h3{
+  font-size:clamp(24px,3vw,32px);
+  margin-bottom:16px;
+  line-height:1.22;
+}
+.esperienza-moment-text p{
+  color:var(--cream-dim);
+  font-size:16.5px;
+  max-width:440px;
+}
+
+@media (max-width:860px){
+  .esperienza-moment, .esperienza-moment--reverse{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+  .esperienza-moment--reverse .esperienza-moment-media,
+  .esperienza-moment--reverse .esperienza-moment-text{order:initial;}
+  .esperienza-moment-media{aspect-ratio:16/11;}
+  .esperienza-moment-text{padding:0;}
+}
+
 /* ===================== MENU ===================== */
 .menu-section{background:var(--bg-alt);}
 .menu-head{max-width:600px;margin-bottom:56px;}
@@ -539,6 +615,19 @@
   transition:background .5s var(--ease), transform .5s var(--ease-soft);
   position:relative;
 }
+.cantina-card--feature{background:var(--bg-alt);}
+.cantina-card--feature::before{
+  content:'La casa';
+  position:absolute;
+  top:0;right:0;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--bg);
+  background:var(--brass);
+  padding:5px 10px;
+}
 @media (hover:hover){
   .cantina-card:hover{background:var(--bg-alt);transform:translateY(-4px);}
   .cantina-card:hover .cantina-num{color:var(--brass);}
@@ -615,19 +704,53 @@
 .rec-author strong{color:var(--cream);font-family:var(--mono);}
 
 /* ===================== PRENOTA ===================== */
-.prenota{background:var(--bg-alt);}
+.prenota{background:var(--bg-alt);position:relative;overflow:hidden;}
+.prenota-glow{
+  position:absolute;
+  top:-20%;right:-10%;
+  width:60%;height:80%;
+  background:radial-gradient(circle, rgba(139,46,46,0.18), transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
 .prenota-grid{
+  position:relative;
+  z-index:1;
   display:grid;
   grid-template-columns:0.85fr 1.15fr;
   gap:clamp(40px,6vw,90px);
+  align-items:start;
 }
-.prenota-info h2{
+.prenota-title{
   font-size:clamp(36px,5vw,58px);
-  margin:18px 0 24px;
+  margin:18px 0 22px;
   line-height:1.08;
 }
-.prenota-info h2 em{font-style:italic;color:var(--brass);}
-.prenota-info p{color:var(--cream-dim);max-width:380px;margin-bottom:36px;}
+.prenota-title em{font-style:italic;color:var(--brass);}
+.prenota-lead{color:var(--cream-dim);max-width:420px;margin-bottom:28px;}
+
+.prenota-trust{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:36px;
+}
+.prenota-trust li{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  font-size:15px;
+  color:var(--cream-dim);
+}
+.prenota-trust-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--brass);
+  flex-shrink:0;
+  transform:translateY(-2px);
+}
+
 .prenota-hours{
   border-top:1px solid var(--card-line);
   padding-top:24px;
@@ -642,6 +765,20 @@
 }
 .hours-row span:first-child{color:var(--cream-dim);text-transform:uppercase;letter-spacing:0.04em;}
 
+.prenota-alt{
+  margin-top:24px;
+  font-size:14px;
+  color:var(--cream-dim);
+}
+.prenota-alt a{
+  color:var(--brass);
+  border-bottom:1px solid var(--brass-dim);
+  transition:border-color .3s var(--ease);
+}
+@media (hover:hover){
+  .prenota-alt a:hover{border-color:var(--brass);}
+}
+
 .prenota-form{
   background:var(--card);
   border:1px solid var(--card-line);
@@ -649,6 +786,25 @@
   display:flex;
   flex-direction:column;
   gap:20px;
+  box-shadow:0 40px 80px -32px rgba(0,0,0,0.55);
+}
+.prenota-form-head{
+  margin-bottom:4px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--card-line);
+}
+.prenota-form-eyebrow{
+  display:block;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--brass);
+  margin-bottom:8px;
+}
+.prenota-form-head h3{
+  font-size:22px;
+  font-weight:500;
 }
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 .prenota-form label{
@@ -661,6 +817,14 @@
   text-transform:uppercase;
   color:var(--cream-dim);
 }
+.prenota-optional{
+  font-style:italic;
+  text-transform:none;
+  letter-spacing:0;
+  color:var(--brass-dim);
+  font-family:var(--body);
+  font-size:12px;
+}
 .prenota-form input, .prenota-form select, .prenota-form textarea{
   background:var(--bg);
   border:1px solid var(--card-line);
@@ -668,19 +832,35 @@
   padding:13px 14px;
   font-family:var(--body);
   font-size:16px;
-  transition:border-color .35s var(--ease);
+  transition:border-color .35s var(--ease), box-shadow .35s var(--ease);
   min-height:44px;
 }
+.prenota-form input::placeholder, .prenota-form textarea::placeholder{color:var(--cream-dim);opacity:0.55;}
 .prenota-form textarea{min-height:88px;}
 .prenota-form input:focus, .prenota-form select:focus, .prenota-form textarea:focus{
   border-color:var(--brass);
   outline:none;
+  box-shadow:0 0 0 3px rgba(201,162,75,0.12);
 }
 .prenota-form textarea{resize:vertical;}
 .form-submit{
   margin-top:8px;
   justify-content:center;
   width:100%;
+  gap:10px;
+}
+.btn-arrow{
+  width:15px;height:15px;
+  transition:transform .35s var(--ease-out-expo);
+}
+@media (hover:hover){
+  .form-submit:hover .btn-arrow{transform:translateX(4px);}
+}
+.form-microcopy{
+  text-align:center;
+  font-size:12.5px;
+  color:var(--cream-dim);
+  margin-top:-8px;
 }
 .form-note{
   font-family:var(--mono);
@@ -693,6 +873,7 @@
 @media (max-width:860px){
   .prenota-grid{grid-template-columns:1fr;}
   .form-row{grid-template-columns:1fr;}
+  .prenota-glow{display:none;}
 }
 
 /* ===================== CONTATTI ===================== */

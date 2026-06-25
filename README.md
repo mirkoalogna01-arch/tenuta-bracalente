@@ -16,6 +16,11 @@ Sito vetrina per una trattoria di lusso italiana. File statici, nessuna build, p
 - **Barra di prenotazione fissa su mobile**: bottone "Prenota un tavolo" sempre visibile mentre si scorre, con tasto rapido per chiamare
 - **Velocità**: le foto sotto la prima schermata si caricano solo quando l'utente ci arriva scorrendo (lazy loading), niente più font inutilizzati caricati
 
+## Cosa è stato aggiunto nell'ultima revisione (conversione + storytelling)
+- **Sezione Prenota riscritta**: titolo emozionale, testo che comunica scarsità reale (tavoli limitati), lista di rassicurazioni (risposta in 2 ore, nessun acconto), numero di telefono diretto come alternativa, pulsante con freccia animata e stato "Invio in corso..." durante l'invio
+- **Nuova sezione "L'Esperienza"**: racconta in 4 momenti (l'arrivo, il territorio, la cucina viva, gli eventi speciali) l'atmosfera del locale, con immagini grandi alternate e un leggero movimento parallasse mentre si scorre
+- **Dettagli anti-"generato"**: la prima card della cantina ha un piccolo badge "La casa" per distinguersi dalle altre due, invece di essere identica meccanicamente
+
 ## ⚠️ Prima di mostrare il sito a un cliente vero, aggiorna questi dati
 Il numero di telefono, l'indirizzo e il rating (4.9 su 127 recensioni) nel codice sono **di esempio**. Cercali e sostituiscili con i dati reali in questi punti:
 - `index.html`: cerca `+390751234567` (telefono, compare 3 volte) e sostituiscilo ovunque

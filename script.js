@@ -147,6 +147,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { rootMargin: '200px 0px' });
   lazyBgEls.forEach(el => lazyBgObserver.observe(el));
 
+  /* ---------- ESPERIENZA: gentle scroll-linked parallax on each photo ---------- */
+  // Adds a sense of depth as each "moment" image drifts past — desktop only,
+  // and skipped under reduced-motion, matching the hero's own parallax rules.
+  const momentMedias = document.querySelectorAll('.esperienza-moment-media');
+  if (momentMedias.length && !isSmallScreen && !wantsReducedMotion) {
+    let momentTicking = false;
+    const updateMomentParallax = () => {
+      const viewportH = window.innerHeight;
+      momentMedias.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // progress: -1 (just below viewport) to 1 (just above), 0 at center
+        const progress = (rect.top + rect.height / 2 - viewportH / 2) / viewportH;
+        const shift = progress * -24; // px of drift, kept subtle on purpose
+        el.style.backgroundPosition = `center calc(50% + ${shift}px)`;
+      });
+      momentTicking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!momentTicking) {
+        requestAnimationFrame(updateMomentParallax);
+        momentTicking = true;
+      }
+    }, { passive: true });
+    updateMomentParallax();
+  }
+
   /* ============================================================
      MENU DATA + RENDER
      ============================================================ */
@@ -278,6 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const data = new FormData(bookingForm);
     const nome = data.get('nome');
+    const submitBtn = bookingForm.querySelector('.form-submit');
+    const submitLabel = submitBtn.querySelector('span');
+    const originalLabel = submitLabel.textContent;
+
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Invio in corso…';
+    formNote.textContent = '';
 
     fetch('/', {
       method: 'POST',
@@ -292,6 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(() => {
         formNote.textContent = `Si è verificato un problema nell'invio. Chiamaci direttamente al numero in fondo alla pagina.`;
         formNote.style.color = 'var(--wine-bright)';
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitLabel.textContent = originalLabel;
       });
 
     // Questo invio funziona automaticamente una volta pubblicato su Netlify,
