@@ -288,6 +288,7 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
     <nav class="nav-links">
       <a href="#storia">Storia</a>
       <a href="#menu">Menu</a>
+      <a href="#galleria">Galleria</a>
       <a href="#cantina">Cantina</a>
       <a href="#recensioni">Recensioni</a>
       <a href="#contatti">Contatti</a>
@@ -303,6 +304,7 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
 <div class="mobile-menu" id="mobileMenu">
   <a href="#storia">Storia</a>
   <a href="#menu">Menu</a>
+  <a href="#galleria">Galleria</a>
   <a href="#cantina">Cantina</a>
   <a href="#recensioni">Recensioni</a>
   <a href="#contatti">Contatti</a>
@@ -449,6 +451,16 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
       </div>
 
       <div class="menu-list" id="menuList"></div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERIA ============ -->
+  <section class="section galleria" id="galleria">
+    <div class="wrap">
+      <p class="eyebrow reveal">Uno sguardo dentro</p>
+      <h2 class="reveal">La tenuta, <em>a fuoco lento.</em></h2>
+      <p class="galleria-intro reveal">Sala, cucina, cantina e brace: qualche scatto per farvi entrare prima ancora di prenotare.</p>
+      <div class="galleria-grid" id="galleriaGrid"></div>
     </div>
   </section>
 
@@ -600,6 +612,26 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
     <span class="footer-credit">© <span id="year"></span> Tutti i diritti riservati</span>
   </div>
 </footer>
+
+<!-- ============ LIGHTBOX GALLERIA ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galleria fotografica">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi galleria">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Foto precedente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Foto successiva">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <figure class="lightbox-figure">
+    <img class="lightbox-img" id="lightboxImg" alt="">
+    <figcaption class="lightbox-caption">
+      <span id="lightboxCaptionText"></span>
+      <span class="lightbox-count" id="lightboxCount"></span>
+    </figcaption>
+  </figure>
+</div>
 
 <script src="script.js"></script>
 </body>

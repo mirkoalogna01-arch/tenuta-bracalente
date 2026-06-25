@@ -241,6 +241,95 @@ document.addEventListener('DOMContentLoaded', () => {
   renderMenu('antipasti');
 
   /* ============================================================
+     GALLERIA + LIGHTBOX
+     ============================================================ */
+  const GALLERY = [
+    { seed: 'bracalente-galleria-sala', label: 'La sala' },
+    { seed: 'bracalente-galleria-brace', label: 'La brace' },
+    { seed: 'bracalente-galleria-cucina', label: 'La cucina' },
+    { seed: 'bracalente-galleria-piatti', label: 'I piatti' },
+    { seed: 'bracalente-galleria-cantina', label: 'La cantina' },
+    { seed: 'bracalente-galleria-esterno', label: 'L\'esterno' },
+  ];
+
+  const galleriaGrid = document.getElementById('galleriaGrid');
+  GALLERY.forEach((photo, i) => {
+    const item = document.createElement('button');
+    item.className = 'galleria-item reveal-media';
+    item.type = 'button';
+    item.dataset.index = i;
+    item.setAttribute('aria-label', `Apri foto: ${photo.label}`);
+    item.innerHTML = `
+      <span class="img-fill" data-bg="https://picsum.photos/seed/${photo.seed}/900/900"></span>
+      <span class="galleria-item-label">${photo.label}</span>
+    `;
+    galleriaGrid.appendChild(item);
+  });
+
+  // newly created .reveal-media and [data-bg] nodes were created after the
+  // page-load observers below were already wired up further down, so they
+  // are picked up by re-running the same observer logic against this subtree
+  galleriaGrid.querySelectorAll('.reveal-media').forEach(el => revealObserver.observe(el));
+  galleriaGrid.querySelectorAll('[data-bg]').forEach(el => lazyBgObserver.observe(el));
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaptionText = document.getElementById('lightboxCaptionText');
+  const lightboxCount = document.getElementById('lightboxCount');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  const galleriaItems = galleriaGrid.querySelectorAll('.galleria-item');
+
+  let currentIndex = 0;
+  let lastFocusedItem = null;
+
+  function showPhoto(index) {
+    currentIndex = (index + GALLERY.length) % GALLERY.length;
+    const photo = GALLERY[currentIndex];
+    // full-size image is only requested once the lightbox actually opens
+    // on this photo — this is the "lazy load" boundary for the lightbox
+    lightboxImg.src = `https://picsum.photos/seed/${photo.seed}/1600/1200`;
+    lightboxImg.alt = photo.label;
+    lightboxCaptionText.textContent = photo.label;
+    lightboxCount.textContent = `${currentIndex + 1} / ${GALLERY.length}`;
+  }
+
+  function openLightbox(index) {
+    lastFocusedItem = document.activeElement;
+    showPhoto(index);
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    lightboxClose.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (lastFocusedItem) lastFocusedItem.focus();
+  }
+
+  galleriaItems.forEach(item => {
+    item.addEventListener('click', () => openLightbox(parseInt(item.dataset.index, 10)));
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', () => showPhoto(currentIndex - 1));
+  lightboxNext.addEventListener('click', () => showPhoto(currentIndex + 1));
+
+  // click on the dark backdrop (but not on the photo/controls) also closes it
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+    if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
+  });
+
+  /* ============================================================
      RECENSIONI DATA + RENDER
      ============================================================ */
   const REVIEWS = [
