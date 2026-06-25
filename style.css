@@ -204,6 +204,24 @@
   animation:fadeUp 1s var(--ease) 1.3s forwards;
 }
 
+.hero-proof{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:28px;
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--cream-dim);
+  opacity:0;
+  animation:fadeUp 1s var(--ease) 1.5s forwards;
+}
+.hero-proof-stars{
+  color:var(--brass);
+  font-size:13px;
+  letter-spacing:1px;
+}
+.hero-proof strong{color:var(--cream);font-weight:500;}
+
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(26px);}
   to{opacity:1;transform:translateY(0);}
@@ -359,10 +377,11 @@
   position:absolute;inset:0;
   background-size:cover;
   background-position:center;
-  transition:transform .6s var(--ease-soft);
+  background-color:var(--card);
+  transition:transform .6s var(--ease-soft), opacity .5s var(--ease);
+  opacity:0;
 }
-.storia-img-1 .img-fill{background-image:url('https://picsum.photos/seed/bracalente-storia1/900/1100');}
-.storia-img-2 .img-fill{background-image:url('https://picsum.photos/seed/bracalente-storia2/800/800');}
+.storia-img-1 .img-fill.is-loaded, .storia-img-2 .img-fill.is-loaded{opacity:1;}
 .storia-imgs:hover .storia-img-1 .img-fill{transform:scale(1.06) translate(-2%,-2%);}
 .storia-imgs:hover .storia-img-2 .img-fill{transform:scale(1.06) translate(2%,2%);}
 
@@ -489,12 +508,13 @@
 .cantina-bg{
   position:absolute;
   inset:0;
-  background-image:url('https://picsum.photos/seed/bracalente-cantina/1920/1280');
   background-size:cover;
   background-position:center;
-  opacity:0.16;
+  opacity:0;
   filter:grayscale(0.3);
+  transition:opacity .8s var(--ease);
 }
+.cantina-bg.is-loaded{opacity:0.16;}
 .cantina-content{position:relative;z-index:1;}
 .cantina-title{
   font-size:clamp(34px,5vw,56px);
@@ -715,15 +735,17 @@
 }
 .contatti-map{
   height:420px;
-  background-image:url('https://picsum.photos/seed/bracalente-mappa/1200/900');
   background-size:cover;
   background-position:center;
+  background-color:var(--card);
   filter:saturate(0.7) brightness(0.75);
   position:relative;
   overflow:hidden;
   transition:filter .5s var(--ease);
 }
-.contatti-map:hover{filter:saturate(0.85) brightness(0.82);}
+@media (hover:hover){
+  .contatti-map:hover{filter:saturate(0.85) brightness(0.82);}
+}
 .contatti-map::after{
   content:'';
   position:absolute;inset:0;
@@ -754,6 +776,53 @@
   color:var(--cream-dim);
 }
 .footer-logo{font-family:var(--display);font-size:16px;text-transform:none;letter-spacing:0;color:var(--cream);}
+
+/* ===================== STICKY BOOKING BAR (mobile only) ===================== */
+/* Highest-leverage conversion change: keeps "Prenota" one thumb-tap away
+   at all times, instead of buried in a nav that scrolls away. Hidden on
+   desktop, where the nav CTA already does this job. */
+.sticky-cta{
+  display:none;
+}
+
+@media (max-width:860px){
+  .sticky-cta{
+    display:flex;
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:90;
+    gap:10px;
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(28,20,16,0.94);
+    backdrop-filter:blur(12px);
+    border-top:1px solid var(--card-line);
+    box-shadow:0 -12px 32px -8px rgba(0,0,0,0.5);
+    transform:translateY(0);
+    transition:transform .4s var(--ease-out-expo);
+  }
+  .sticky-cta.is-hidden{transform:translateY(110%);}
+  .sticky-cta-btn{
+    flex:1;
+    justify-content:center;
+    background:var(--wine);
+    border-color:var(--wine);
+  }
+  .sticky-cta-call{
+    width:48px;height:48px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--card-line);
+    color:var(--brass);
+    transition:border-color .3s var(--ease), background .3s var(--ease);
+  }
+  .sticky-cta-call svg{width:20px;height:20px;}
+  .sticky-cta-call:active{background:var(--card);border-color:var(--brass-dim);}
+  /* leave room at the page bottom so the bar never overlaps real content */
+  .footer{padding-bottom:calc(32px + 76px + env(safe-area-inset-bottom));}
+}
+
 
 /* ===================== GENERIC REVEAL HELPERS ===================== */
 .reveal:nth-child(2){transition-delay:0.08s;}

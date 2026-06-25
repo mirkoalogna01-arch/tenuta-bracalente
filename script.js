@@ -22,6 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  /* ---------- STICKY CTA: hide while hero or booking form are already on screen ---------- */
+  const stickyCta = document.getElementById('stickyCta');
+  const prenotaSection = document.getElementById('prenota');
+  const heroSection = document.getElementById('hero');
+  if (stickyCta && prenotaSection && heroSection) {
+    let heroVisible = true;
+    let prenotaVisible = false;
+    const updateStickyVisibility = () => {
+      stickyCta.classList.toggle('is-hidden', heroVisible || prenotaVisible);
+    };
+    const stickyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === heroSection) heroVisible = entry.isIntersecting;
+        if (entry.target === prenotaSection) prenotaVisible = entry.isIntersecting;
+      });
+      updateStickyVisibility();
+    }, { threshold: 0.2 });
+    stickyObserver.observe(heroSection);
+    stickyObserver.observe(prenotaSection);
+  }
+
   /* ---------- MOBILE MENU ---------- */
   const burger = document.getElementById('navBurger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -109,6 +130,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.5 });
   statNums.forEach(el => countObserver.observe(el));
+
+  /* ---------- LAZY-LOAD BACKGROUND IMAGES ---------- */
+  // Below-the-fold photos load only once they're close to the viewport,
+  // instead of all downloading immediately on page load.
+  const lazyBgEls = document.querySelectorAll('[data-bg]');
+  const lazyBgObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.style.backgroundImage = `url('${el.dataset.bg}')`;
+        el.classList.add('is-loaded');
+        lazyBgObserver.unobserve(el);
+      }
+    });
+  }, { rootMargin: '200px 0px' });
+  lazyBgEls.forEach(el => lazyBgObserver.observe(el));
 
   /* ============================================================
      MENU DATA + RENDER
