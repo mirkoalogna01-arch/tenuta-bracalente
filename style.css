@@ -196,6 +196,94 @@
 .nav-links{display:none;}
 .nav-cta{display:none;}
 
+/* ===================== PAGE INTRO — LIGHTS ON ===================== */
+/*
+  Timeline totale: 3.2s
+  0.0s–0.3s  — nero assoluto
+  0.3s       — scatto: luce 1 (basso-sinistra, ambra calda)
+  0.9s       — scatto: luce 2 (alto-destra, bordeaux/brace)
+  1.5s       — scatto: luce 3 (centro, diffusa)
+  2.1s–3.2s  — tutte le luci + buio svaniscono, hero rivelato
+*/
+.pi-dark,.pi-g1,.pi-g2,.pi-g3{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:490;
+}
+
+/* strato nero di base — attende 2.1s poi dissolve in 2.0s */
+.pi-dark{
+  background:#0a0604;
+  animation:pi-dark-fade 2.0s cubic-bezier(0.16,1,0.3,1) 2.1s both;
+}
+@keyframes pi-dark-fade{
+  from{ opacity:1; }
+  to  { opacity:0; }
+}
+
+/*
+  Ogni glow usa UN'unica animazione da 4.1s con fade-in graduale (dimmer).
+  Durata totale: buildup 2.1s + dissoluzione 2.0s = 4.1s
+  Percentuali chiave (X / 4.1s):
+    g1: fade-in 7.3%→17.1%   (0.3s→0.7s)
+    g2: fade-in 22.0%→31.7%  (0.9s→1.3s)
+    g3: fade-in 36.6%→46.3%  (1.5s→1.9s)
+    inizio dissoluzione → 51.2% (2.1s)
+*/
+
+/* LUCE 1 — ambra calda, basso-sinistra (brace/camino) */
+.pi-g1{
+  background:radial-gradient(ellipse 45% 50% at 28% 72%,
+    rgba(220,140,50,0.70) 0%,
+    rgba(180,60,20,0.30)  45%,
+    transparent           72%);
+  animation:pi-g1-anim 4.1s linear both;
+}
+@keyframes pi-g1-anim{
+  0%,7.3% { opacity:0; }
+  7.3%    { animation-timing-function:ease-in-out; }
+  17.1%   { opacity:1; animation-timing-function:linear; }
+  51.2%   { opacity:1; animation-timing-function:cubic-bezier(0.16,1,0.3,1); }
+  100%    { opacity:0; }
+}
+
+/* LUCE 2 — bordeaux, alto-destra (luce ambiente/parete) */
+.pi-g2{
+  background:radial-gradient(ellipse 38% 42% at 78% 25%,
+    rgba(160,57,47,0.65)  0%,
+    rgba(100,20,10,0.25)  48%,
+    transparent           70%);
+  animation:pi-g2-anim 4.1s linear both;
+}
+@keyframes pi-g2-anim{
+  0%,22.0%{ opacity:0; }
+  22.0%   { animation-timing-function:ease-in-out; }
+  31.7%   { opacity:1; animation-timing-function:linear; }
+  51.2%   { opacity:1; animation-timing-function:cubic-bezier(0.16,1,0.3,1); }
+  100%    { opacity:0; }
+}
+
+/* LUCE 3 — ottone diffuso, centro (soffitto/lampadario) */
+.pi-g3{
+  background:radial-gradient(ellipse 60% 55% at 50% 42%,
+    rgba(201,162,75,0.50) 0%,
+    rgba(180,80,30,0.20)  50%,
+    transparent           75%);
+  animation:pi-g3-anim 4.1s linear both;
+}
+@keyframes pi-g3-anim{
+  0%,36.6%{ opacity:0; }
+  36.6%   { animation-timing-function:ease-in-out; }
+  46.3%   { opacity:1; animation-timing-function:linear; }
+  51.2%   { opacity:1; animation-timing-function:cubic-bezier(0.16,1,0.3,1); }
+  100%    { opacity:0; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .pi-dark,.pi-g1,.pi-g2,.pi-g3{ display:none; }
+}
+
 /* ===================== HERO ===================== */
 .hero{
   position:relative;
@@ -251,7 +339,7 @@
 }
 .hero-eyebrow{
   opacity:0;
-  animation:fadeUp 1s var(--ease) 0.2s forwards;
+  animation:fadeUp 1s var(--ease) 2.4s forwards;
   margin-bottom:28px;
 }
 .hero-title{
@@ -279,7 +367,7 @@
   line-height:1.65;
   color:var(--cream-dim);
   opacity:0;
-  animation:fadeUp 1s var(--ease) 1.1s forwards;
+  animation:fadeUp 1s var(--ease) 3.3s forwards;
   margin-bottom:40px;
 }
 .hero-actions{
@@ -287,7 +375,7 @@
   gap:16px;
   flex-wrap:wrap;
   opacity:0;
-  animation:fadeUp 1s var(--ease) 1.3s forwards;
+  animation:fadeUp 1s var(--ease) 3.5s forwards;
 }
 
 .hero-proof{
@@ -299,7 +387,7 @@
   font-size:13px;
   color:var(--cream-dim);
   opacity:0;
-  animation:fadeUp 1s var(--ease) 1.5s forwards;
+  animation:fadeUp 1s var(--ease) 3.7s forwards;
 }
 .hero-proof-stars{
   color:var(--brass);
@@ -373,9 +461,9 @@
   display:inline-block;
   animation:lineUp 1.1s var(--ease-out-expo) forwards;
 }
-.hero-title .line:nth-child(1) span{animation-delay:0.35s;}
-.hero-title .line:nth-child(2) span{animation-delay:0.5s;}
-.hero-title .line:nth-child(3) span{animation-delay:0.65s;}
+.hero-title .line:nth-child(1) span{animation-delay:2.55s;}
+.hero-title .line:nth-child(2) span{animation-delay:2.70s;}
+.hero-title .line:nth-child(3) span{animation-delay:2.85s;}
 @keyframes lineUp{to{transform:translateY(0);}}
 
 .hero-scroll-cue{
@@ -394,7 +482,7 @@
   text-transform:uppercase;
   color:var(--cream-dim);
   opacity:0;
-  animation:fadeUp 1s var(--ease) 1.6s forwards;
+  animation:fadeUp 1s var(--ease) 4.0s forwards;
 }
 .scroll-line{
   width:1px;
