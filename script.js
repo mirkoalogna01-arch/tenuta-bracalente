@@ -452,14 +452,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastSparkMs = 0;
     document.addEventListener('mousemove', (e) => {
       const now = performance.now();
-      if (now - lastSparkMs < 45) return; // ~22 sparks/sec max
+      if (now - lastSparkMs < 28) return; // ~35 sparks/sec max
       lastSparkMs = now;
       const sp = document.createElement('span');
       sp.className = 'cursor-spark';
       sp.style.left = `${e.clientX}px`;
       sp.style.top  = `${e.clientY}px`;
-      sp.style.setProperty('--sx', `${((Math.random() - 0.5) * 16).toFixed(1)}px`);
-      sp.style.setProperty('--sy', `${(-10 - Math.random() * 20).toFixed(1)}px`);
+      sp.style.setProperty('--sx', `${((Math.random() - 0.5) * 22).toFixed(1)}px`);
+      sp.style.setProperty('--sy', `${(-14 - Math.random() * 24).toFixed(1)}px`);
       document.body.appendChild(sp);
       sp.addEventListener('animationend', () => sp.remove(), { once: true });
     }, { passive: true });

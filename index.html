@@ -294,7 +294,6 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
       <a href="#recensioni">Recensioni</a>
       <a href="#contatti">Contatti</a>
     </nav>
-    <a href="#prenota" class="btn btn-solid nav-cta">Prenota</a>
     <button class="nav-burger" id="navBurger" aria-label="Apri menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -303,13 +302,36 @@ h2{font-feature-settings:"kern" 1, "liga" 1, "ss01" 1;}
 
 <!-- mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#storia">Storia</a>
-  <a href="#menu">Menu</a>
-  <a href="#galleria">Galleria</a>
-  <a href="#cantina">Cantina</a>
-  <a href="#recensioni">Recensioni</a>
-  <a href="#contatti">Contatti</a>
-  <a href="#prenota" class="btn btn-solid">Prenota un tavolo</a>
+  <div class="mm-bg" aria-hidden="true"></div>
+  <nav class="mm-links">
+    <a href="#storia" class="mm-link">
+      <span class="mm-num" aria-hidden="true">01</span>
+      <span class="mm-label-wrap"><span class="mm-label">Storia</span></span>
+    </a>
+    <a href="#menu" class="mm-link">
+      <span class="mm-num" aria-hidden="true">02</span>
+      <span class="mm-label-wrap"><span class="mm-label">Menu</span></span>
+    </a>
+    <a href="#galleria" class="mm-link">
+      <span class="mm-num" aria-hidden="true">03</span>
+      <span class="mm-label-wrap"><span class="mm-label">Galleria</span></span>
+    </a>
+    <a href="#cantina" class="mm-link">
+      <span class="mm-num" aria-hidden="true">04</span>
+      <span class="mm-label-wrap"><span class="mm-label">Cantina</span></span>
+    </a>
+    <a href="#recensioni" class="mm-link">
+      <span class="mm-num" aria-hidden="true">05</span>
+      <span class="mm-label-wrap"><span class="mm-label">Recensioni</span></span>
+    </a>
+    <a href="#contatti" class="mm-link">
+      <span class="mm-num" aria-hidden="true">06</span>
+      <span class="mm-label-wrap"><span class="mm-label">Contatti</span></span>
+    </a>
+  </nav>
+  <div class="mm-footer">
+    <a href="#prenota" class="btn btn-solid mm-cta">Prenota un tavolo</a>
+  </div>
 </div>
 
 <main id="top">
